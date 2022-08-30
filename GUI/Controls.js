@@ -75,8 +75,8 @@ function createControls()
         this.GitHub = function() {
             window.open("https://github.com/vsr83/OrbitsGL", "_blank").focus();
         };
-        this.warpSeconds = 60;
-        this.timeWarp = false;
+        this.warpSeconds = 1;
+        this.timeWarp = true;
         this.lockLonRot = false;
         this.lockLatRot = false;
 
