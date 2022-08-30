@@ -29,6 +29,7 @@ ListEnter.onclick = function()
         satelliteNames.push(title);
         satNameToIndex[title] = indElem;
     }
+
     satelliteNames.sort();
 
     for (let indName = 0; indName < satelliteNames.length; indName++)

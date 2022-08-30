@@ -28,7 +28,7 @@ function createControls()
         this.enableSun = true;
         this.enableMoon = true;
         this.enableSubSolar = false;
-        this.enableList = false;
+        this.enableList = true;
         this.locationLon = 24.66;
         this.locationLat = 60.21;
         this.gridLonResolution = 30;
@@ -90,9 +90,9 @@ function createControls()
         
         this.frame = "ECEF";
 
-        this.source = "Telemetry";
+        this.source = "TLE";
         this.enableClock = true;
-        this.targetName = "ISS (ZARYA)";
+        this.targetName = "STARLINK 550";
         this.osvYear = 2021;
         this.osvMonth = 11;
         this.osvDay = 22;
@@ -441,4 +441,3 @@ function createControls()
     
     gui.add(guiControls, 'GitHub');
 }
- 

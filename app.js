@@ -1,5 +1,16 @@
 "use strict";
 
+function loadFile(filePath) {
+  var result = null;
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", filePath, false);
+  xmlhttp.send();
+  if (xmlhttp.status==200) {
+    result = xmlhttp.responseText;
+  }
+  return result;
+}
+
 var gl = null;
 var earthShaders = null;
 var lineShaders = null;
@@ -56,6 +67,61 @@ pointShaders.init();
 var satellites = [];
 var satLines = [];
 var satNameToIndex = [];
+
+
+
+
+function processTLEFile(tleIn) {
+    const lines = tleIn.split('\n').slice(1);
+    const numElem = (lines.length + 1) / 3;
+    const TLEselectList = document.getElementById('TLESelectlist');
+
+    var satellites = [];
+    var satelliteNames = [];
+    var satNameToIndex = [];
+    var satLines = [];
+
+    for (let indElem = 0; indElem < Math.floor(numElem); indElem++)
+    {
+        const title = lines[indElem * 3];
+        const tleLine1 = lines[indElem * 3 + 1];
+        const tleLine2 = lines[indElem * 3 + 2];
+        const satrec = satellite.twoline2satrec(tleLine1, tleLine2);
+
+        satellites.push(satrec);
+        satLines.push([title, tleLine1, tleLine2]);
+        satelliteNames.push(title);
+        satNameToIndex[title] = indElem;
+        //console.log(satrec)
+    }
+    satelliteNames.sort();
+
+
+    let innerHTML = "";
+    for (let indName = 0; indName < satelliteNames.length; indName++)
+    {
+        const satName = satelliteNames[indName];
+        innerHTML += '<option value="' + satName + '">' + satName + "</option>";
+    }
+
+    //<option value="ISS">ISS</option>
+
+    TLEselectList.innerHTML = innerHTML;
+    displayControls.enableList.setValue(true);
+
+    return {
+        satellites: satellites,
+        satLines: satLines,
+        satNameToIndex: satNameToIndex
+    }
+}
+
+let tles = loadFile("tles.txt");
+let satData = processTLEFile(tles);
+
+satellites = satData.satellites;
+satLines = satData.satLines;
+satNameToIndex = satData.satNameToIndex;
 
 requestAnimationFrame(drawScene);
  
@@ -123,6 +189,7 @@ function drawScene(time)
     // overwritten below.
     ISS.osv = createOsv(today);
 
+
     let osvSatListJ2000 = [];
     if (enableList)
     {
@@ -145,6 +212,7 @@ function drawScene(time)
             }
         }
     }
+
 
     // Compute Julian date and time:
     const julianTimes = TimeConversions.computeJulianTime(today);
