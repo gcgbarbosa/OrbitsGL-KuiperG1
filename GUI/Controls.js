@@ -92,7 +92,7 @@ function createControls()
 
         this.source = "TLE";
         this.enableClock = true;
-        this.targetName = "STARLINK 550";
+        this.targetName = "KUIPER 630";
         this.osvYear = 2021;
         this.osvMonth = 11;
         this.osvDay = 22;
